@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shiny_hunter/services/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -8,11 +9,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late int counter = 0;
+  int counter = 0;
   @override
   void initState() {
     super.initState();
-    counter;
+    counter = UsersSharedPreferences.getCounter() ?? 0;
   }
 
   @override
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: <Widget>[
         const Text(
-          'You have pushed the button this many times:',
+          'Attempts at current shiny',
         ),
         Text(
           '$counter',
@@ -37,11 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
               width: size.width * 0.4,
               child: ElevatedButton(
                   child: const Icon(Icons.remove),
-                  onPressed: () {
+                  onPressed: () async {
                     if (counter > 0) {
                       setState(() {
                         counter--;
                       });
+                      await UsersSharedPreferences.changeCounter(counter);
                     }
                   },
                   style: ButtonStyle(
@@ -53,10 +55,11 @@ class _HomeScreenState extends State<HomeScreen> {
               width: size.width * 0.4,
               child: ElevatedButton(
                 child: const Icon(Icons.add),
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
                     counter++;
                   });
+                  await UsersSharedPreferences.changeCounter(counter);
                 },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(

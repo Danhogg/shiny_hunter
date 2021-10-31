@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shiny_hunter/screens/home.dart';
+import 'package:shiny_hunter/services/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await UsersSharedPreferences.init();
   runApp(const MyApp());
 }
 
