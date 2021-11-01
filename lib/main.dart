@@ -5,6 +5,7 @@ import 'package:shiny_hunter/services/theme_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //TODO load the SharedPrefrences here so they initialise on opening of the app
 
   runApp(
     const MyApp(),
