@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shiny_hunter/screens/home.dart';
-import 'package:shiny_hunter/services/shared_preferences.dart';
+import 'package:shiny_hunter/services/theme_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await UsersSharedPreferences.init();
-  runApp(const MyApp());
+
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -13,15 +16,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Dismiss keyboard throughout app
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
-        home: const MyHomePage(),
+    return ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, ThemeProvider notifier, child) {
+          return GestureDetector(
+              onTap: () {
+                // Dismiss keyboard throughout app
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: notifier.darktheme
+                    ? notifier.darkTheme
+                    : notifier.lightTheme,
+                home: const MyHomePage(),
+              ));
+        },
       ),
     );
   }

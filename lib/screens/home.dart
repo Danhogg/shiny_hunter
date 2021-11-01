@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shiny_hunter/screens/setup.dart';
 import 'package:shiny_hunter/screens/shiny_counter.dart';
+import 'package:shiny_hunter/services/theme_handler.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -31,6 +33,16 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(titles[_currentIndex]),
         centerTitle: true,
+        leading: Consumer<ThemeProvider>(
+          builder: (context, notifier, child) {
+            return IconButton(
+              icon: const Icon(Icons.brightness_6),
+              onPressed: () {
+                notifier.swapTheme();
+              },
+            );
+          },
+        ),
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
